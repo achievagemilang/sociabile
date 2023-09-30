@@ -16,7 +16,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       );
     case MainPage.routeName:
       return MaterialPageRoute(
-        builder: (context) => const MainPage(),
+        builder: (context) => MainPage(),
       );
     default:
       return MaterialPageRoute(
