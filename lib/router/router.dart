@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sociabile/constants/global_variables.dart';
 import 'package:sociabile/page/login_page.dart';
+import 'package:sociabile/page/main_page.dart';
 import 'package:sociabile/page/register_page.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -12,6 +13,10 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case RegisterPage.routeName:
       return MaterialPageRoute(
         builder: (context) => const RegisterPage(),
+      );
+    case MainPage.routeName:
+      return MaterialPageRoute(
+        builder: (context) => const MainPage(),
       );
     default:
       return MaterialPageRoute(
