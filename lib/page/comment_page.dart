@@ -5,6 +5,8 @@ import 'package:sociabile/services/comment_services.dart';
 import 'package:sociabile/widgets/comment_card.dart';
 import 'package:sociabile/widgets/social_media_post_card.dart';
 
+import '../models/comment.dart';
+
 class CommentPage extends StatefulWidget {
   final SocialMediaPostCard postCard;
   final List<CommentDisplay> comments;
@@ -22,6 +24,34 @@ class CommentPage extends StatefulWidget {
 
 class _CommentPageState extends State<CommentPage> {
   final CommentService commentService = CommentService();
+  final TextEditingController _commentController = TextEditingController();
+
+  void _handleAddComment() async {
+    if (_commentController.text.trim().isNotEmpty) {
+      Comment? newComment = await commentService.postComment(
+        context: context,
+        value: _commentController.text,
+        postId: widget.postId,
+      );
+
+      if (newComment != null) {
+        setState(() {
+          widget.comments.add(
+            CommentDisplay(
+              id: newComment.id,
+              username:
+                  'username', // You'll need to replace this with the actual username
+              major: 'major', // Replace this with the actual major
+              text: newComment.value,
+              profileImageURL:
+                  'https://via.placeholder.com/150', // Replace this with the actual image URL
+            ),
+          );
+          _commentController.clear(); // Clear the comment TextField
+        });
+      }
+    }
+  }
 
   void _handleEditComment(CommentDisplay comment) async {
     String? editedComment = await showDialog<String>(
@@ -135,6 +165,8 @@ class _CommentPageState extends State<CommentPage> {
               Padding(
                 padding: EdgeInsets.all(16.0),
                 child: TextField(
+                  controller: _commentController,
+                  style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: 'Add a comment...',
                     hintStyle: TextStyle(color: GlobalVariables.secondaryColor),
@@ -153,9 +185,7 @@ class _CommentPageState extends State<CommentPage> {
                         Icons.send,
                         color: GlobalVariables.secondaryColor,
                       ),
-                      onPressed: () {
-                        // Add your comment submission logic here
-                      },
+                      onPressed: _handleAddComment,
                     ),
                   ),
                 ),
