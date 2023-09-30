@@ -65,6 +65,10 @@ class CommentPage extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.all(16.0),
                 child: TextField(
+                  style: TextStyle(
+                    color: GlobalVariables.secondaryColor,
+                    fontFamily: 'Poppins',
+                  ),
                   decoration: InputDecoration(
                     hintText: 'Add a comment...',
                     hintStyle: TextStyle(color: GlobalVariables.secondaryColor),
