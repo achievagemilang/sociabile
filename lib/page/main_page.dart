@@ -156,25 +156,26 @@ class _MainPageState extends State<MainPage> {
       backgroundColor: GlobalVariables.backgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.0, vertical: 8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
                         InkWell(
-                          // onTap: () => Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) =>  ProfilePage(),
-                          //   ),
-                          // ),
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfilePage(),
+                            ),
+                          ),
                           child: CircleAvatar(
                             radius: 21,
                             child: CircleAvatar(
@@ -217,12 +218,12 @@ class _MainPageState extends State<MainPage> {
                     InkWell(
                       splashColor: GlobalVariables.secondaryColor,
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) =>  LovedListPage(),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CreatePostPage(),
+                          ),
+                        );
                       },
                       child: Icon(
                         Icons.add,
@@ -232,7 +233,7 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 35),
+                const SizedBox(height: 35),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: posts.map((post) {

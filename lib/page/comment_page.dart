@@ -167,6 +167,7 @@ class _CommentPageState extends State<CommentPage> {
                 child: TextField(
                   controller: _commentController,
                   style: TextStyle(color: Colors.white),
+
                   decoration: InputDecoration(
                     hintText: 'Add a comment...',
                     hintStyle: TextStyle(color: GlobalVariables.secondaryColor),

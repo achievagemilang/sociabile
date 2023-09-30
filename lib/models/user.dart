@@ -21,6 +21,29 @@ class User {
     required this.updatedAt,
   });
 
+  User copy({
+    int? id,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? birthDate,
+    String? photoUrl,
+    String? photoPublicId,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) =>
+      User(
+        id: id ?? this.id,
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
+        email: email ?? this.email,
+        birthDate: birthDate ?? this.birthDate,
+        photoUrl: photoUrl ?? this.photoUrl,
+        photoPublicId: photoPublicId ?? this.photoPublicId,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'],
