@@ -20,61 +20,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  // List<Post> posts = [
-  //   Post(
-  //     username: 'Yudha',
-  //     major: 'Computer Science 22',
-  //     text: 'This is a sample post text. #Flutter',
-  //     imageURL: 'https://example.com/sample_image.jpg',
-  //     comments: [
-  //       Comment(
-  //         username: 'User1',
-  //         major: '2 hours ago',
-  //         text: 'Great post!',
-  //         profileImageURL: 'https://example.com/profile1.jpg',
-  //       ),
-  //       Comment(
-  //         username: 'User2',
-  //         major: '1 hour ago',
-  //         text: 'I agree.',
-  //         profileImageURL: 'https://example.com/profile2.jpg',
-  //       ),
-  //       Comment(
-  //         username: 'User3',
-  //         major: '30 minutes ago',
-  //         text: 'Nice photo!',
-  //         profileImageURL: 'https://example.com/profile3.jpg',
-  //       ),
-  //     ],
-  //   ),
-  //   Post(
-  //     username: 'Yudha',
-  //     major: 'Computer Science 22',
-  //     text: 'This is a sample post text. #Flutter',
-  //     imageURL: 'https://example.com/sample_image.jpg',
-  //     comments: [
-  //       Comment(
-  //         username: 'User1',
-  //         major: '2 hours ago',
-  //         text: 'Great post!',
-  //         profileImageURL: 'https://example.com/profile1.jpg',
-  //       ),
-  //       Comment(
-  //         username: 'User2',
-  //         major: '1 hour ago',
-  //         text: 'I agree.',
-  //         profileImageURL: 'https://example.com/profile2.jpg',
-  //       ),
-  //       Comment(
-  //         username: 'User3',
-  //         major: '30 minutes ago',
-  //         text: 'Nice photo!',
-  //         profileImageURL: 'https://example.com/profile3.jpg',
-  //       ),
-  //     ],
-  //   ),
-  // ];
-  // late User user;
   List<PostDisplay> posts = [];
   List<Comment> comments = [];
 
@@ -101,26 +46,6 @@ class _MainPageState extends State<MainPage> {
           (post) => post.toPostDisplay(
             'Yudha',
             'Computer Science 22',
-            // [
-            //   CommentDisplay(
-            //     username: 'User1',
-            //     major: '2 hours ago',
-            //     text: 'Great post!',
-            //     profileImageURL: 'https://example.com/profile1.jpg',
-            //   ),
-            //   CommentDisplay(
-            //     username: 'User2',
-            //     major: '1 hour ago',
-            //     text: 'I agree.',
-            //     profileImageURL: 'https://example.com/profile2.jpg',
-            //   ),
-            //   CommentDisplay(
-            //     username: 'User3',
-            //     major: '30 minutes ago',
-            //     text: 'Nice photo!',
-            //     profileImageURL: 'https://example.com/profile3.jpg',
-            //   ),
-            // ],
           ),
         )
         .toList();
@@ -148,6 +73,10 @@ class _MainPageState extends State<MainPage> {
       this.posts = posts;
       print(posts.toString());
     });
+  }
+
+  void _refreshPosts() {
+    _fetchPosts();
   }
 
   @override
@@ -238,7 +167,10 @@ class _MainPageState extends State<MainPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: posts.map((post) {
                     return Center(
-                      child: SocialMediaPostCard(post: post),
+                      child: SocialMediaPostCard(
+                        post: post,
+                        onPostDeleted: _refreshPosts,
+                      ),
                     );
                   }).toList(),
                 ),
