@@ -1,21 +1,19 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
+import 'package:sociabile/constants/access_token_handling.dart';
 import 'package:sociabile/constants/global_variables.dart';
 import 'package:sociabile/constants/http_error_handling.dart';
 import 'package:sociabile/constants/utility.dart';
 import 'package:sociabile/page/login_page.dart';
 import 'package:sociabile/page/main_page.dart';
-import 'package:sociabile/provider/auth_provider.dart';
+
+import '../models/user.dart';
 
 class AuthService {
   static final String authUrl = "$uri/api/auth";
 
-  void signUpUser({
+  Future<void> signUpUser({
     required BuildContext context,
     required String email,
     required String password,
@@ -32,21 +30,13 @@ class AuthService {
           "lastName": lastName,
         },
       );
-      // print(lastName);
-      // print(authUrl);
-      // print(res.statusCode);
-      // print(res.contentLength);
+
       print(res.body);
-      // print(res.isRedirect);
 
       httpErrorHandling(
         response: res,
         context: context,
         onSuccess: () async {
-          // SharedPreferences prefs = await SharedPreferences.getInstance();
-          // await prefs.setString('resendEmailToken',
-          //     jsonDecode(res.body)["data"]["resendEmailToken"]);
-
           showSnackbar(context, "Successfully registered!", true);
           Navigator.pushReplacementNamed(context, LoginPage.routeName);
         },
@@ -57,7 +47,7 @@ class AuthService {
     }
   }
 
-  void logInUser({
+  Future<String?> logInUser({
     required BuildContext context,
     required String email,
     required String password,
@@ -70,70 +60,53 @@ class AuthService {
           "email": email,
         },
       );
-      // print(lastName);
-      // print(authUrl);
-      // print(res.statusCode);
-      // print(res.contentLength);
-      // print(res.body);
-      // print(res.isRedirect);
+
       print(res.body);
 
       httpErrorHandling(
         response: res,
         context: context,
         onSuccess: () async {
-          // SharedPreferences prefs = await SharedPreferences.getInstance();
-          // await prefs.setString(
-          //     'accessToken', jsonDecode(res.body)["data"]["accessToken"]);
-          // await prefs.setString(
-          //     'refreshToken', jsonDecode(res.body)["data"]["refreshToken"]);
-          // await prefs.setString(
-          //   'resendEmailToken',
-          //   jsonDecode(res.body)["data"]["resendEmailToken"],
-          // );
-
-          // String? accessToken = prefs.getString('accessToken');
-          // String? refreshToken = prefs.getString('refreshToken');
-          // String? resendEmailToken = prefs.getString('resendEmailToken');
-
-          // print(accessToken);
-          // print(refreshToken);
-          // print(resendEmailToken);
-
-          // print(jsonDecode(res.body)["data"].toString());
-          // print("notostring: ${jsonDecode(res.body)["data"]}");
-
           showSnackbar(context, "Successfully login!", true);
           Navigator.pushReplacementNamed(context, MainPage.routeName);
         },
       );
+
+      var jsonResponse = jsonDecode(res.body);
+      if (jsonResponse['status'] == true) {
+        String token = jsonResponse['data']['token'];
+        await AccessTokenHandling.saveTokenToPrefs(
+            token); // Save token to SharedPreferences
+
+        showSnackbar(context, "Successfully login!", true);
+        Navigator.pushReplacementNamed(context, MainPage.routeName);
+        return token;
+      }
     } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));
     }
+    return null;
   }
 
-  void getProfileUser({
+  Future<User?> getProfileUser({
     required BuildContext context,
   }) async {
     try {
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // String? accessToken = prefs.getString('accessToken');
-      // String? refreshToken = prefs.getString('refreshToken');
-      // String? resendEmailToken = prefs.getString('resendEmailToken');
+      String? token = await AccessTokenHandling
+          .getTokenFromPrefs(); // Get token from SharedPreferences
+
+      if (token == null) {
+        throw Exception("Token not found");
+      }
 
       http.Response res = await http.get(
         Uri.parse('$authUrl/profile'),
         headers: <String, String>{
-          // 'Authorization': "Bearer $accessToken",
+          'Authorization': "Bearer $token",
         },
       );
-      // print(lastName);
-      // print(authUrl);
-      // print(res.statusCode);
-      // print(res.contentLength);
-      // print(res.body);
-      // print(res.isRedirect);
+
       print(res.body);
 
       httpErrorHandling(
@@ -143,8 +116,6 @@ class AuthService {
           print(res.body);
           String resUser = jsonDecode(res.body)["data"].toString();
           print(resUser);
-          // Provider.of<AuthProvider>(context, listen: false).setUser(resUser);
-
           showSnackbar(context, "Successfully Fetched!", true);
         },
       );
@@ -152,5 +123,6 @@ class AuthService {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));
     }
+    return null;
   }
 }
