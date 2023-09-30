@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sociabile/constants/global_variables.dart';
 
+import '../services/post_services.dart';
+
 class CreatePostPage extends StatefulWidget {
   @override
   _CreatePostPageState createState() => _CreatePostPageState();
@@ -17,17 +19,42 @@ class _CreatePostPageState extends State<CreatePostPage> {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _imageFile = File(pickedFile.path);
+    if (pickedFile != null) {
+      String? ext = pickedFile.path.split('.').last; // Get the file extension
+      if (ext != 'jpg' && ext != 'jpeg' && ext != 'png') {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Please select a jpg, jpeg, or png image.')));
+        return;
       }
-    });
+
+      setState(() {
+        _imageFile = File(pickedFile.path);
+      });
+    }
   }
 
   void _submitPost() {
-    // Implement your post submission logic here
-    // You can access the text content using _textEditingController.text
-    // and the image (if selected) using _imageFile
+    if (_textEditingController.text.isNotEmpty) {
+      final postService = PostService();
+      if (_imageFile != null) {
+        postService.createPost(
+          context: context,
+          title:
+              "YourTitleHere", // This can be replaced by another text field capturing the post title
+          content: _textEditingController.text,
+          picturePath: _imageFile!.path,
+        );
+      } else {
+        // Handle the scenario when no image is provided
+        // This could involve another method on PostService or a modification of the createPost method.
+      }
+
+      // Optionally: After successfully adding the post, navigate back or show a success message
+      // Navigator.pop(context); // to go back
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Please provide post content.')));
+    }
   }
 
   @override

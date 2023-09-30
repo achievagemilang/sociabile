@@ -2,9 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:sociabile/constants/global_variables.dart';
 import 'package:sociabile/model/post_display.dart';
 import 'package:sociabile/page/comment_page.dart';
+import 'package:sociabile/page/main_page.dart';
+
+import '../services/post_services.dart';
 
 class SocialMediaPostCard extends StatelessWidget {
   final PostDisplay post;
+  final Function onPostDeleted;
+
+  SocialMediaPostCard({required this.post, required this.onPostDeleted});
+
   void _showCommentsPage(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -19,7 +26,58 @@ class SocialMediaPostCard extends StatelessWidget {
     );
   }
 
-  SocialMediaPostCard({required this.post});
+  void _handleDeletePost(BuildContext context) {
+    final postService = PostService();
+
+    // Call the deletePost method from PostService
+    postService.deletePost(
+      context: context,
+      postId: post.id, // Use the post ID from the PostDisplay object
+    );
+
+    // Call the passed-in refresh callback function to update the list
+    onPostDeleted();
+  }
+
+  void _handleEditPost(BuildContext context) {
+    TextEditingController editController =
+        TextEditingController(text: post.text);
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Edit Post'),
+            content: TextField(
+              controller: editController,
+              decoration: InputDecoration(hintText: "Edit your post content"),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('Update'),
+                onPressed: () async {
+                  final postService = PostService();
+                  await postService.editPost(
+                    context: context,
+                    postId: post.id,
+                    title:
+                        "title", // Replace with your title logic if there's any
+                    content: editController.text,
+                  );
+                  Navigator.of(context).pop();
+                  onPostDeleted(); // To refresh after edit
+                },
+              )
+            ],
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +127,10 @@ class SocialMediaPostCard extends StatelessWidget {
                   color: GlobalVariables.subtitleColor,
                   onSelected: (value) {
                     if (value == 'edit') {
-                    } else if (value == 'delete') {}
+                      _handleEditPost(context);
+                    } else if (value == 'delete') {
+                      _handleDeletePost(context);
+                    }
                   },
                   itemBuilder: (context) => <PopupMenuEntry<String>>[
                     PopupMenuItem<String>(
