@@ -1,3 +1,5 @@
+import 'package:sociabile/model/post_display.dart';
+
 class Post {
   final String id;
   final String title;
@@ -29,6 +31,16 @@ class Post {
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       userId: json['userId'],
+    );
+  }
+
+  PostDisplay toPostDisplay(String username, String major) {
+    return PostDisplay(
+      id: id,
+      username: username,
+      major: major,
+      text: content,
+      imageURL: photoUrl,
     );
   }
 }

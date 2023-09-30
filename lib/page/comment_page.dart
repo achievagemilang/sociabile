@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sociabile/constants/global_variables.dart';
-import 'package:sociabile/model/comment.dart';
+import 'package:sociabile/model/comment_display.dart';
 import 'package:sociabile/widgets/comment_card.dart';
 import 'package:sociabile/widgets/social_media_post_card.dart';
 
 class CommentPage extends StatelessWidget {
   final SocialMediaPostCard postCard;
-  final List<Comment> comments;
+  final List<CommentDisplay> comments;
 
   CommentPage({
     required this.postCard,

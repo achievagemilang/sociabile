@@ -2,10 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:sociabile/constants/global_variables.dart';
-import 'package:sociabile/model/post.dart';
+import 'package:sociabile/model/post_display.dart';
+import 'package:sociabile/models/post.dart';
 import 'package:sociabile/widgets/social_media_post_card.dart';
 
-import '../model/comment.dart';
+import '../model/comment_display.dart';
+import '../models/comment.dart';
+import '../services/comment_services.dart';
+import '../services/post_services.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({super.key});
@@ -16,67 +20,133 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List<Post> posts = [
-    Post(
-      username: 'Yudha',
-      major: 'Computer Science 22',
-      text: 'This is a sample post text. #Flutter',
-      imageURL: 'https://example.com/sample_image.jpg',
-      comments: [
-        Comment(
-          username: 'User1',
-          major: '2 hours ago',
-          text: 'Great post!',
-          profileImageURL: 'https://example.com/profile1.jpg',
-        ),
-        Comment(
-          username: 'User2',
-          major: '1 hour ago',
-          text: 'I agree.',
-          profileImageURL: 'https://example.com/profile2.jpg',
-        ),
-        Comment(
-          username: 'User3',
-          major: '30 minutes ago',
-          text: 'Nice photo!',
-          profileImageURL: 'https://example.com/profile3.jpg',
-        ),
-      ],
-    ),
-    Post(
-      username: 'Yudha',
-      major: 'Computer Science 22',
-      text: 'This is a sample post text. #Flutter',
-      imageURL: 'https://example.com/sample_image.jpg',
-      comments: [
-        Comment(
-          username: 'User1',
-          major: '2 hours ago',
-          text: 'Great post!',
-          profileImageURL: 'https://example.com/profile1.jpg',
-        ),
-        Comment(
-          username: 'User2',
-          major: '1 hour ago',
-          text: 'I agree.',
-          profileImageURL: 'https://example.com/profile2.jpg',
-        ),
-        Comment(
-          username: 'User3',
-          major: '30 minutes ago',
-          text: 'Nice photo!',
-          profileImageURL: 'https://example.com/profile3.jpg',
-        ),
-      ],
-    ),
-  ];
+  // List<Post> posts = [
+  //   Post(
+  //     username: 'Yudha',
+  //     major: 'Computer Science 22',
+  //     text: 'This is a sample post text. #Flutter',
+  //     imageURL: 'https://example.com/sample_image.jpg',
+  //     comments: [
+  //       Comment(
+  //         username: 'User1',
+  //         major: '2 hours ago',
+  //         text: 'Great post!',
+  //         profileImageURL: 'https://example.com/profile1.jpg',
+  //       ),
+  //       Comment(
+  //         username: 'User2',
+  //         major: '1 hour ago',
+  //         text: 'I agree.',
+  //         profileImageURL: 'https://example.com/profile2.jpg',
+  //       ),
+  //       Comment(
+  //         username: 'User3',
+  //         major: '30 minutes ago',
+  //         text: 'Nice photo!',
+  //         profileImageURL: 'https://example.com/profile3.jpg',
+  //       ),
+  //     ],
+  //   ),
+  //   Post(
+  //     username: 'Yudha',
+  //     major: 'Computer Science 22',
+  //     text: 'This is a sample post text. #Flutter',
+  //     imageURL: 'https://example.com/sample_image.jpg',
+  //     comments: [
+  //       Comment(
+  //         username: 'User1',
+  //         major: '2 hours ago',
+  //         text: 'Great post!',
+  //         profileImageURL: 'https://example.com/profile1.jpg',
+  //       ),
+  //       Comment(
+  //         username: 'User2',
+  //         major: '1 hour ago',
+  //         text: 'I agree.',
+  //         profileImageURL: 'https://example.com/profile2.jpg',
+  //       ),
+  //       Comment(
+  //         username: 'User3',
+  //         major: '30 minutes ago',
+  //         text: 'Nice photo!',
+  //         profileImageURL: 'https://example.com/profile3.jpg',
+  //       ),
+  //     ],
+  //   ),
+  // ];
   // late User user;
+  List<PostDisplay> posts = [];
+  List<Comment> comments = [];
+
+  late PostService postService;
+  late CommentService commentService;
 
   @override
   void initState() {
-    // loadMovies();
     super.initState();
-    // user = UserPreferences.getUser();
+    postService = PostService();
+    commentService = CommentService();
+    _fetchPosts();
+  }
+
+  void _fetchPosts() async {
+    List<Post> fetchedPosts = await postService.fetchPosts(
+      context: context,
+      page: 1,
+      take: 10, // adjust this to your desired number
+    );
+
+    List<PostDisplay> posts = fetchedPosts
+        .map(
+          (post) => post.toPostDisplay(
+            'Yudha',
+            'Computer Science 22',
+            // [
+            //   CommentDisplay(
+            //     username: 'User1',
+            //     major: '2 hours ago',
+            //     text: 'Great post!',
+            //     profileImageURL: 'https://example.com/profile1.jpg',
+            //   ),
+            //   CommentDisplay(
+            //     username: 'User2',
+            //     major: '1 hour ago',
+            //     text: 'I agree.',
+            //     profileImageURL: 'https://example.com/profile2.jpg',
+            //   ),
+            //   CommentDisplay(
+            //     username: 'User3',
+            //     major: '30 minutes ago',
+            //     text: 'Nice photo!',
+            //     profileImageURL: 'https://example.com/profile3.jpg',
+            //   ),
+            // ],
+          ),
+        )
+        .toList();
+
+    for (var post in posts) {
+      List<Comment>? fetchedComments = await commentService.getAllComments(
+        context: context,
+        postId: post.id,
+      );
+      if (fetchedComments != null) {
+        comments.addAll(fetchedComments);
+        List<CommentDisplay> commentDisplays = fetchedComments
+            .map(
+              (comment) => comment.toCommentDisplay(
+                'Yudha',
+                'Computer Science 22',
+              ),
+            )
+            .toList();
+        post.setComments = commentDisplays;
+      }
+    }
+
+    setState(() {
+      posts = posts;
+    });
   }
 
   @override

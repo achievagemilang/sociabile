@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.poppinsTextTheme(),
         ),
         // home: const LoginPage(),
-        home: MainPage(),
+        home: LoginPage(),
       ),
     );
   }
