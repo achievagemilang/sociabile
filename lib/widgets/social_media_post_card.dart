@@ -39,6 +39,46 @@ class SocialMediaPostCard extends StatelessWidget {
     onPostDeleted();
   }
 
+  void _handleEditPost(BuildContext context) {
+    TextEditingController editController =
+        TextEditingController(text: post.text);
+
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Edit Post'),
+            content: TextField(
+              controller: editController,
+              decoration: InputDecoration(hintText: "Edit your post content"),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Cancel'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('Update'),
+                onPressed: () async {
+                  final postService = PostService();
+                  await postService.editPost(
+                    context: context,
+                    postId: post.id,
+                    title:
+                        "title", // Replace with your title logic if there's any
+                    content: editController.text,
+                  );
+                  Navigator.of(context).pop();
+                  onPostDeleted(); // To refresh after edit
+                },
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -87,6 +127,7 @@ class SocialMediaPostCard extends StatelessWidget {
                   color: GlobalVariables.subtitleColor,
                   onSelected: (value) {
                     if (value == 'edit') {
+                      _handleEditPost(context);
                     } else if (value == 'delete') {
                       _handleDeletePost(context);
                     }
