@@ -1,3 +1,5 @@
 import 'package:flutter/material.dart';
 
-class AuthProvider extends ChangeNotifier {}
+class AuthProvider extends ChangeNotifier {
+  //test
+}
