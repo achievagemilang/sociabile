@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:sociabile/constants/global_variables.dart';
-import 'package:sociabile/model/post.dart';
+import 'package:sociabile/model/post_display.dart';
 import 'package:sociabile/page/comment_page.dart';
 
 class SocialMediaPostCard extends StatelessWidget {
-  final Post post;
+  final PostDisplay post;
   void _showCommentsPage(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return CommentPage(comments: post.comments, postCard: this);
+          return CommentPage(
+            comments: post.comments,
+            postCard: this,
+            postId: post.id,
+          );
         },
       ),
     );

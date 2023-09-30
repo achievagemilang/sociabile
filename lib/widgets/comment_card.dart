@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sociabile/constants/global_variables.dart';
-import 'package:sociabile/model/comment.dart';
+import 'package:sociabile/model/comment_display.dart';
 
 class CommentCard extends StatelessWidget {
-  final Comment comment;
+  final CommentDisplay comment;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 

@@ -38,6 +38,7 @@ class PostService {
           posts.add(Post.fromJson(postData));
         }
       }
+      print(posts.length);
       httpErrorHandling(
         response: res,
         context: context,

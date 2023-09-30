@@ -17,11 +17,10 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  late AuthProvider controller;
+  final AuthService _authService = AuthService();
   @override
   void initState() {
     super.initState();
-    controller = Provider.of<AuthProvider>(context, listen: false);
   }
 
   final TextEditingController _emailController = TextEditingController();
@@ -36,7 +35,7 @@ class _RegisterPageState extends State<RegisterPage> {
       email: _emailController.text,
       password: _passwordController.text,
       firstName: _emailController.text,
-      lastName: "",
+      lastName: _emailController.text,
     );
   }
 
@@ -62,85 +61,81 @@ class _RegisterPageState extends State<RegisterPage> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    Container(
-                      color: GlobalVariables.backgroundColor,
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Image.asset(
-                          'assets/RISTEK.png',
-                          height: 300,
-                        ),
-                      ),
-                    ),
-                    CustomTextfield(
-                      controller: _emailController,
-                      hintText: 'Email',
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    CustomTextfield(
-                      controller: _passwordController,
-                      hintText: 'Password*',
-                      isPasswordField: true,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    CustomTextfield(
-                      controller: _passwordController,
-                      hintText: 'Confirm Password*',
-                      isPasswordField: true,
-                    ),
-                    const SizedBox(
-                      height: 40,
-                    ),
-                    CustomButton(
-                        text: "Submit",
-                        onPressed: () {
-                          if (validatePassword()) {
-                            signUp();
-                          }
-                        }),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Already have an account? ',
-                    style: TextStyle(
-                      color: Colors.white,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  color: GlobalVariables.backgroundColor,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Image.asset(
+                      'assets/RISTEK.png',
+                      height: 300,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushReplacementNamed(
-                        LoginPage.routeName,
-                      );
-                    },
-                    child: const Text(
-                      'Login',
+                ),
+                CustomTextfield(
+                  controller: _emailController,
+                  hintText: 'Email',
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomTextfield(
+                  controller: _passwordController,
+                  hintText: 'Password*',
+                  isPasswordField: true,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CustomTextfield(
+                  controller: _passwordController2,
+                  hintText: 'Confirm Password*',
+                  isPasswordField: true,
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                CustomButton(
+                    text: "Submit",
+                    onPressed: () {
+                      if (validatePassword()) {
+                        signUp();
+                      }
+                    }),
+                const SizedBox(
+                  height: 30,
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Already have an account? ',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-            ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushReplacementNamed(
+                          LoginPage.routeName,
+                        );
+                      },
+                      child: const Text(
+                        'Login',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),

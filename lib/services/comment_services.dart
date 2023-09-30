@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:sociabile/constants/global_variables.dart';
 
 import '../constants/access_token_handling.dart';
 import '../constants/http_error_handling.dart';
 import '../models/comment.dart';
 
 class CommentService {
-  static const String baseUrl = "localhost:3000";
+  static final String baseUrl = uri.replaceFirst("http://", "");
   static const String commentUrl = "/api/comment";
 
   // Adding a new comment
@@ -157,9 +158,11 @@ class CommentService {
       );
       if (res.statusCode == 200) {
         List<dynamic> commentsData = json.decode(res.body)['data'];
+        print("Comments data: $commentsData");
         List<Comment> comments = commentsData
             .map((commentData) => Comment.fromJson(commentData))
             .toList();
+        print("Comments: $comments");
         return comments;
       }
     } catch (e) {
