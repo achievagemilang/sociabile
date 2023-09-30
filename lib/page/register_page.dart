@@ -4,6 +4,7 @@ import 'package:sociabile/constants/global_variables.dart';
 import 'package:sociabile/page/login_page.dart';
 import 'package:sociabile/provider/auth_provider.dart';
 import 'package:sociabile/widgets/custom_button.dart';
+import 'package:sociabile/services/auth_services.dart';
 
 import '../widgets/custom_textfield.dart';
 
@@ -26,6 +27,18 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordController2 = TextEditingController();
+
+  final AuthService authService = AuthService();
+
+  void signUp() {
+    authService.signUpUser(
+      context: context,
+      email: _emailController.text,
+      password: _passwordController.text,
+      firstName: _emailController.text,
+      lastName: "",
+    );
+  }
 
   @override
   void dispose() {
@@ -90,7 +103,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     CustomButton(
                         text: "Submit",
                         onPressed: () {
-                          if (validatePassword()) {}
+                          if (validatePassword()) {
+                            signUp();
+                          }
                         }),
                     const SizedBox(
                       height: 30,

@@ -12,9 +12,10 @@ class GlobalVariables {
     stops: [0.5, 1.0],
   );
 
-  static const secondaryColor = Color(0xFF5038BC);
-  static const backgroundColor = Color(0xFF121212);
-  static const Color greyBackgroundCOlor = Color(0xffebecee);
-  static var selectedNavBarColor = const Color(0xFF5038BC);
+  static const secondaryColor = Color.fromARGB(255, 255, 255, 255);
+  static const subtitleColor = Color.fromARGB(255, 186, 186, 186);
+  static const backgroundColor = Color.fromARGB(255, 3, 3, 3);
+  static const Color greyBackgroundCOlor = Color.fromARGB(255, 13, 13, 13);
+  static var purpleColor = const Color(0xFF5038BC);
   static const unselectedNavBarColor = Colors.black87;
 }
