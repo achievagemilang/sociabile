@@ -19,4 +19,9 @@ class PostDisplay {
   set setComments(List<CommentDisplay> comments) {
     this.comments = comments;
   }
+
+  @override
+  String toString() {
+    return 'PostDisplay{id: $id, username: $username, major: $major, text: $text, imageURL: $imageURL, comments: $comments}';
+  }
 }

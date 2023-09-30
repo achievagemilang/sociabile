@@ -145,7 +145,8 @@ class _MainPageState extends State<MainPage> {
     }
 
     setState(() {
-      posts = posts;
+      this.posts = posts;
+      print(posts.toString());
     });
   }
 
