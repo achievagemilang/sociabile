@@ -1,17 +1,84 @@
 import 'package:flutter/material.dart';
 import 'package:sociabile/constants/global_variables.dart';
 import 'package:sociabile/model/comment_display.dart';
+import 'package:sociabile/services/comment_services.dart';
 import 'package:sociabile/widgets/comment_card.dart';
 import 'package:sociabile/widgets/social_media_post_card.dart';
 
-class CommentPage extends StatelessWidget {
+class CommentPage extends StatefulWidget {
   final SocialMediaPostCard postCard;
   final List<CommentDisplay> comments;
+  final String postId;
 
   CommentPage({
     required this.postCard,
     required this.comments,
+    required this.postId,
   });
+
+  @override
+  State<CommentPage> createState() => _CommentPageState();
+}
+
+class _CommentPageState extends State<CommentPage> {
+  final CommentService commentService = CommentService();
+
+  void _handleEditComment(CommentDisplay comment) async {
+    String? editedComment = await showDialog<String>(
+      context: context,
+      builder: (context) {
+        TextEditingController editingController =
+            TextEditingController(text: comment.text);
+        return AlertDialog(
+          backgroundColor: GlobalVariables.greyBackgroundCOlor,
+          title: Text('Edit Comment', style: TextStyle(color: Colors.white)),
+          content: TextField(
+            style: TextStyle(color: Colors.white), // Text color for TextField
+            controller: editingController,
+            decoration: InputDecoration(
+              hintText: 'Edit your comment...',
+              hintStyle: TextStyle(
+                  color: Colors.white.withOpacity(0.7)), // Hint text color
+              enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white.withOpacity(0.7)),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+            ),
+            maxLines: 3,
+          ),
+          actions: [
+            TextButton(
+              child: Text('Cancel', style: TextStyle(color: Colors.white)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Save', style: TextStyle(color: Colors.white)),
+              onPressed: () {
+                Navigator.of(context).pop(editingController.text);
+              },
+            ),
+          ],
+        );
+      },
+    );
+
+    if (editedComment != null && editedComment != comment.text) {
+      await commentService.editComment(
+        context: context,
+        value: editedComment,
+        postId: widget.postId, // Make sure to provide the post ID here
+        commentId: comment.id,
+      );
+
+      setState(() {
+        comment.text = editedComment;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +89,7 @@ class CommentPage extends StatelessWidget {
           child: Column(
             children: [
               // Display the Post Card for the post you are commenting on
-              postCard,
+              widget.postCard,
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
@@ -49,14 +116,17 @@ class CommentPage extends StatelessWidget {
               // Comment Section
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: comments.map((comment) {
+                children: widget.comments.map((comment) {
                   return CommentCard(
                     comment: comment,
-                    onEdit: () {
-                      // Handle edit comment action
-                    },
+                    onEdit: () => _handleEditComment(comment),
                     onDelete: () {
-                      // Handle delete comment action
+                      commentService.deleteComment(
+                          context: context, commentId: comment.id);
+                      setState(() {
+                        widget.comments.remove(
+                            comment); // Remove the comment from the list after deletion
+                      });
                     },
                   );
                 }).toList(),

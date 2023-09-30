@@ -2,7 +2,7 @@ class CommentDisplay {
   final int id;
   final String username;
   final String major;
-  final String text;
+  String text;
   final String profileImageURL;
 
   CommentDisplay({

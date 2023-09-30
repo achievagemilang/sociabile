@@ -9,7 +9,11 @@ class SocialMediaPostCard extends StatelessWidget {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
-          return CommentPage(comments: post.comments, postCard: this);
+          return CommentPage(
+            comments: post.comments,
+            postCard: this,
+            postId: post.id,
+          );
         },
       ),
     );
