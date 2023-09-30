@@ -134,7 +134,7 @@ class PostService {
   // Continuing from the previous `PostService`:
 
 // Editing an existing post
-  void editPost({
+  Future<void> editPost({
     required BuildContext context,
     required String postId,
     required String title,

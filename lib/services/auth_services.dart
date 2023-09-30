@@ -13,7 +13,7 @@ import '../models/user.dart';
 class AuthService {
   static final String authUrl = "$uri/api/auth";
 
-  void signUpUser({
+  Future<void> signUpUser({
     required BuildContext context,
     required String email,
     required String password,
