@@ -10,6 +10,8 @@ import '../model/comment_display.dart';
 import '../models/comment.dart';
 import '../services/comment_services.dart';
 import '../services/post_services.dart';
+import 'create_post_page.dart';
+import 'profile_page.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({super.key});
