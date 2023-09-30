@@ -21,7 +21,6 @@ class AuthService {
     required String password,
     required String firstName,
     required String lastName,
-    required String phone,
   }) async {
     try {
       http.Response res = await http.post(
