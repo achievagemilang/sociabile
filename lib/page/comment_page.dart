@@ -40,8 +40,8 @@ class _CommentPageState extends State<CommentPage> {
             CommentDisplay(
               id: newComment.id,
               username:
-                  'username', // You'll need to replace this with the actual username
-              major: 'major', // Replace this with the actual major
+                  "User ID ${newComment.userId}", // You'll need to replace this with the actual username
+              major: "RISTEK 2023", // Replace this with the actual major
               text: newComment.value,
               profileImageURL:
                   'https://via.placeholder.com/150', // Replace this with the actual image URL
@@ -167,7 +167,6 @@ class _CommentPageState extends State<CommentPage> {
                 child: TextField(
                   controller: _commentController,
                   style: TextStyle(color: Colors.white),
-
                   decoration: InputDecoration(
                     hintText: 'Add a comment...',
                     hintStyle: TextStyle(color: GlobalVariables.secondaryColor),

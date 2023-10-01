@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sociabile/constants/global_variables.dart';
+import 'package:sociabile/models/user.dart';
 import 'package:sociabile/page/main_page.dart';
+import 'package:sociabile/provider/auth_provider.dart';
 import 'package:sociabile/widgets/ribbon_description.dart';
 
 import '../widgets/ribbon_heading.dart';
@@ -15,17 +18,16 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  // late User user;
+  late User user;
 
   @override
   void initState() {
     super.initState();
-    // user = UserPreferences.getUser();
   }
 
   @override
   Widget build(BuildContext context) {
-    // final user = UserPreferences.getUser();
+    user = Provider.of<AuthProvider>(context).user!;
     Widget buildEditProfile() => InkWell(
           child: Text(
             "Edit Profile",
@@ -64,29 +66,26 @@ class _ProfilePageState extends State<ProfilePage> {
                     radius: 82,
                     backgroundColor: GlobalVariables.purpleColor,
                     child: CircleAvatar(
-                        radius: 80,
-                        backgroundImage:
-                            AssetImage("assets/RISTEK.png") as ImageProvider
-
-                        // backgroundImage: (user.imagePath.contains('assets/'))
-                        //     ? AssetImage(user.imagePath) as ImageProvider
-                        //     : FileImage(File(user.imagePath)),
-                        ),
+                      radius: 80,
+                      backgroundImage: user.photoUrl == null
+                          ? AssetImage("assets/RISTEK.png") as ImageProvider
+                          : NetworkImage(user.photoUrl!),
+                    ),
                   ),
                   SizedBox(height: 10),
                   Text(
-                    "nama",
+                    "${user.firstName} ${user.lastName}",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       color: GlobalVariables.purpleColor,
                       fontWeight: FontWeight.bold,
-                      fontSize: 20,
+                      fontSize: 25,
                     ),
                   ),
                   SizedBox(height: 3),
                   Text(
-                    "major",
+                    "RISTEK 2023",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Poppins',
@@ -99,11 +98,13 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             SizedBox(height: 40),
             RibbonHeading(text: 'First Name'),
-            RibbonDescription(text: "nama"),
+            RibbonDescription(text: user.firstName),
             RibbonHeading(text: 'Last Name'),
-            RibbonDescription(text: "hobi"),
-            RibbonHeading(text: 'Tentang'),
-            RibbonDescription(text: "bio"),
+            RibbonDescription(text: user.lastName),
+            RibbonHeading(text: 'Email'),
+            RibbonDescription(text: user.email),
+            RibbonHeading(text: 'Bio'),
+            RibbonDescription(text: user.bio ?? ""),
             SizedBox(height: 20),
             Center(
               child: Padding(

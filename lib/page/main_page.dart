@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sociabile/constants/global_variables.dart';
 import 'package:sociabile/model/post_display.dart';
 import 'package:sociabile/models/post.dart';
+import 'package:sociabile/models/user.dart';
+import 'package:sociabile/provider/auth_provider.dart';
 import 'package:sociabile/widgets/social_media_post_card.dart';
 
 import '../model/comment_display.dart';
@@ -28,6 +31,8 @@ class _MainPageState extends State<MainPage> {
   late PostService postService;
   late CommentService commentService;
 
+  late User? user;
+
   @override
   void initState() {
     super.initState();
@@ -46,8 +51,8 @@ class _MainPageState extends State<MainPage> {
     List<PostDisplay> posts = fetchedPosts
         .map(
           (post) => post.toPostDisplay(
-            'Yudha',
-            'Computer Science 22',
+            "User ID ${post.userId}",
+            'RISTEK 2023',
           ),
         )
         .toList();
@@ -62,8 +67,8 @@ class _MainPageState extends State<MainPage> {
         List<CommentDisplay> commentDisplays = fetchedComments
             .map(
               (comment) => comment.toCommentDisplay(
-                'Yudha',
-                'Computer Science 22',
+                "User ID ${comment.userId}",
+                'RISTEK 2023',
               ),
             )
             .toList();
@@ -83,6 +88,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    user = Provider.of<AuthProvider>(context).user;
     return Scaffold(
       backgroundColor: GlobalVariables.backgroundColor,
       body: SafeArea(
@@ -106,19 +112,22 @@ class _MainPageState extends State<MainPage> {
                             MaterialPageRoute(
                               builder: (context) => ProfilePage(),
                             ),
-                          ),
+                          ).then((_) {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MainPage(),
+                                ));
+                          }),
                           child: CircleAvatar(
                             radius: 21,
                             child: CircleAvatar(
-                                radius: 20,
-                                backgroundImage: AssetImage("assets/RISTEK.png")
-                                    as ImageProvider
-
-                                // backgroundImage: (user.imagePath
-                                //         .contains('assets/'))
-                                // ? AssetImage(user.imagePath) as ImageProvider
-                                // : FileImage(File(user.imagePath)),
-                                ),
+                              radius: 20,
+                              backgroundImage: user!.photoUrl == null
+                                  ? AssetImage("assets/RISTEK.png")
+                                      as ImageProvider
+                                  : NetworkImage(user!.photoUrl!),
+                            ),
                           ),
                         ),
                         SizedBox(width: 20),
@@ -126,7 +135,7 @@ class _MainPageState extends State<MainPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Arvin",
+                              user!.firstName,
                               style: TextStyle(
                                   color: GlobalVariables.secondaryColor,
                                   fontFamily: 'Poppins',
@@ -134,7 +143,7 @@ class _MainPageState extends State<MainPage> {
                                   fontSize: 16),
                             ),
                             Text(
-                              "Computer Science 2022",
+                              "RISTEK 2023",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: Color.fromARGB(255, 186, 186, 186),

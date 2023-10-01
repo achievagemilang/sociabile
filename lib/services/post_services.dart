@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sociabile/constants/global_variables.dart';
@@ -98,8 +100,10 @@ class PostService {
     required String title,
     required String content,
     required String picturePath,
+    required File imageFile,
   }) async {
     try {
+      print("PICTURE: $picturePath");
       String? token = await AccessTokenHandling
           .getTokenFromPrefs(); // Get token from SharedPreferences
 
@@ -107,10 +111,28 @@ class PostService {
         throw Exception("Token not found");
       }
       var request = http.MultipartRequest('POST', Uri.parse(postUrl));
-      request.files
-          .add(await http.MultipartFile.fromPath('picture', picturePath));
+
+      // Uint8List data = await imageFile.readAsBytes();
+      // List<int> list = data.cast();
+
+      // print(data);
+      // print("SEPARATEOROJO");
+      // print(list);
+
+      // request.files.add(await http.MultipartFile.fromBytes('picture', list,
+      //     filename: "myFiles.png"));
+
+      final image =
+          await http.MultipartFile.fromPath('picture', imageFile.path);
+      request.files.add(image);
+
       request.fields['title'] = title;
       request.fields['content'] = content;
+      // request.fields['picture'] = base64Encode(await imageFile.readAsBytes());
+
+      print("HAI");
+      // print(request.fields['picture']);
+
       request.headers['Authorization'] =
           "Bearer $token"; // replace YOUR_TOKEN_HERE
 
