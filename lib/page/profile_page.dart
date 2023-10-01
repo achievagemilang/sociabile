@@ -106,14 +106,14 @@ class _ProfilePageState extends State<ProfilePage> {
             RibbonHeading(text: 'Bio'),
             RibbonDescription(text: user.bio ?? ""),
             SizedBox(height: 20),
-            Center(
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: buildEditProfile()),
-              ),
-            ),
+            // Center(
+            //   child: Padding(
+            //     padding: EdgeInsets.symmetric(vertical: 20),
+            //     child: Align(
+            //         alignment: Alignment.bottomCenter,
+            //         child: buildEditProfile()),
+            //   ),
+            // ),
             SizedBox(height: 40),
           ],
         ),
