@@ -242,8 +242,10 @@ class PostService {
     required String postId,
     required String likeType, // Expected values: 'LIKE' or 'DISLIKE'
   }) async {
-    final postLikeUrl = "$postUrl/post-like";
+    // final postLikeUrl = "$postUrl/post-like";
 
+    final String baseUrl = uri.replaceFirst("http://", "");
+    final String postLikeUrl = "/api/post-like";
     try {
       String? token = await AccessTokenHandling
           .getTokenFromPrefs(); // Get token from SharedPreferences
@@ -251,8 +253,13 @@ class PostService {
       if (token == null) {
         throw Exception("Token not found");
       }
+
+      final fullUrl = Uri.http(baseUrl, postLikeUrl, {
+        "post_id": postId,
+      });
+
       http.Response res = await http.post(
-        Uri.parse(postLikeUrl),
+        fullUrl,
         headers: <String, String>{
           'Authorization': "Bearer $token", // replace YOUR_TOKEN_HERE
           'Content-Type': 'application/json',

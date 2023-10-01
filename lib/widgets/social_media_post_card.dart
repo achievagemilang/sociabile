@@ -44,6 +44,19 @@ class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
     widget.onPostDeleted();
   }
 
+  void _likePost(BuildContext context) {
+    final postService = PostService();
+
+    // Call the deletePost method from PostService
+    postService.likeOrDislikePost(
+      context: context,
+      likeType: "LIKE",
+      postId: widget.post.id, // Use the post ID from the PostDisplay object
+    );
+
+    widget.onPostDeleted();
+  }
+
   void _handleEditPost(BuildContext context) {
     TextEditingController editController =
         TextEditingController(text: widget.post.text);
@@ -215,6 +228,7 @@ class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
                   icon: Icon(Icons.favorite_border_outlined),
                   onPressed: () {
                     // Add your like action here
+                    _likePost(context);
                   },
                 ),
                 Text(
