@@ -1,9 +1,11 @@
+// ignore_for_file: unnecessary_null_comparison, prefer_null_aware_operators
+
 class User {
   final int id;
   final String firstName;
   final String lastName;
   final String email;
-  final String? birthDate;
+  final String? bio;
   final String? photoUrl;
   final String? photoPublicId;
   final DateTime createdAt;
@@ -14,7 +16,7 @@ class User {
     required this.firstName,
     required this.lastName,
     required this.email,
-    this.birthDate,
+    this.bio,
     this.photoUrl,
     this.photoPublicId,
     required this.createdAt,
@@ -26,7 +28,7 @@ class User {
     String? firstName,
     String? lastName,
     String? email,
-    String? birthDate,
+    String? bio,
     String? photoUrl,
     String? photoPublicId,
     DateTime? createdAt,
@@ -37,7 +39,7 @@ class User {
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         email: email ?? this.email,
-        birthDate: birthDate ?? this.birthDate,
+        bio: bio ?? this.bio,
         photoUrl: photoUrl ?? this.photoUrl,
         photoPublicId: photoPublicId ?? this.photoPublicId,
         createdAt: createdAt ?? this.createdAt,
@@ -50,11 +52,25 @@ class User {
       firstName: json['firstName'],
       lastName: json['lastName'],
       email: json['email'],
-      birthDate: json['birthDate'],
+      bio: json['bio'],
       photoUrl: json['photoUrl'],
       photoPublicId: json['photoPublicId'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'firstName': firstName,
+      'email': email,
+      'lastName': lastName,
+      'bio': bio,
+      'photoUrl': photoUrl,
+      'photoPublicId': photoPublicId,
+      'createdAt': createdAt == null ? null : createdAt.toIso8601String(),
+      'updatedAt': updatedAt == null ? null : updatedAt.toIso8601String(),
+    };
   }
 }

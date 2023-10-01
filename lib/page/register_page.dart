@@ -69,7 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Image.asset(
-                      'assets/RISTEK.png',
+                      'assets/RISTEK2.png',
                       height: 300,
                     ),
                   ),

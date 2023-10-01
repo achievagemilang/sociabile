@@ -9,6 +9,8 @@ class Post {
   final DateTime createdAt;
   final DateTime updatedAt;
   final int userId;
+  final int likeCount;
+  final int dislikeCount;
 
   Post({
     required this.id,
@@ -19,6 +21,8 @@ class Post {
     required this.createdAt,
     required this.updatedAt,
     required this.userId,
+    required this.likeCount,
+    required this.dislikeCount,
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
@@ -31,6 +35,8 @@ class Post {
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       userId: json['userId'],
+      likeCount: json['likeCount'],
+      dislikeCount: json['dislikeCount'],
     );
   }
 
@@ -41,6 +47,8 @@ class Post {
       major: major,
       text: content,
       imageURL: photoUrl,
+      likeCount: likeCount,
+      dislikeCount: dislikeCount,
     );
   }
 }

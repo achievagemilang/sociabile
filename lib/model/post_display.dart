@@ -6,6 +6,8 @@ class PostDisplay {
   final String major;
   final String text;
   final String imageURL;
+  final int likeCount;
+  final int dislikeCount;
   List<CommentDisplay> comments;
 
   PostDisplay(
@@ -14,6 +16,8 @@ class PostDisplay {
       required this.major,
       required this.text,
       required this.imageURL,
+      required this.dislikeCount,
+      required this.likeCount,
       this.comments = const []});
 
   set setComments(List<CommentDisplay> comments) {

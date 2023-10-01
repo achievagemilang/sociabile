@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Image.asset(
-                      'assets/RISTEK.png',
+                      'assets/RISTEK2.png',
                       height: 300,
                     ),
                   ),

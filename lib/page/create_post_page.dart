@@ -27,6 +27,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
         return;
       }
 
+      print(pickedFile.path);
+
       setState(() {
         _imageFile = File(pickedFile.path);
       });
@@ -36,6 +38,8 @@ class _CreatePostPageState extends State<CreatePostPage> {
   void _submitPost() {
     if (_textEditingController.text.isNotEmpty) {
       final postService = PostService();
+
+      print("IMAGE $_imageFile");
       if (_imageFile != null) {
         postService.createPost(
           context: context,
@@ -43,6 +47,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
               "YourTitleHere", // This can be replaced by another text field capturing the post title
           content: _textEditingController.text,
           picturePath: _imageFile!.path,
+          imageFile: _imageFile!,
         );
       } else {
         // Handle the scenario when no image is provided
@@ -86,7 +91,7 @@ class _CreatePostPageState extends State<CreatePostPage> {
                   fontFamily: 'Poppins',
                 ),
                 decoration: InputDecoration(
-                  hintText: 'Add a comment...',
+                  hintText: 'Type your content...',
                   hintStyle: TextStyle(color: GlobalVariables.secondaryColor),
                   border: const OutlineInputBorder(
                       borderSide: BorderSide(

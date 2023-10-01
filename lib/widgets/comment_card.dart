@@ -27,9 +27,10 @@ class CommentCard extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 20,
-                  // backgroundImage: NetworkImage(comment.profileImageURL),
-                  backgroundImage: null,
+                  backgroundImage:
+                      AssetImage("assets/RISTEK.png") as ImageProvider,
                 ),
+
                 SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

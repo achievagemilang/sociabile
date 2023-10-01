@@ -6,24 +6,29 @@ import 'package:sociabile/page/main_page.dart';
 
 import '../services/post_services.dart';
 
-class SocialMediaPostCard extends StatelessWidget {
+class SocialMediaPostCard extends StatefulWidget {
   final PostDisplay post;
   final Function onPostDeleted;
 
   SocialMediaPostCard({required this.post, required this.onPostDeleted});
 
+  @override
+  State<SocialMediaPostCard> createState() => _SocialMediaPostCardState();
+}
+
+class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
   void _showCommentsPage(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
           return CommentPage(
-            comments: post.comments,
-            postCard: this,
-            postId: post.id,
+            comments: widget.post.comments,
+            postCard: widget,
+            postId: widget.post.id,
           );
         },
       ),
-    );
+    ).then((_) => setState(() {}));
   }
 
   void _handleDeletePost(BuildContext context) {
@@ -32,46 +37,66 @@ class SocialMediaPostCard extends StatelessWidget {
     // Call the deletePost method from PostService
     postService.deletePost(
       context: context,
-      postId: post.id, // Use the post ID from the PostDisplay object
+      postId: widget.post.id, // Use the post ID from the PostDisplay object
     );
 
     // Call the passed-in refresh callback function to update the list
-    onPostDeleted();
+    widget.onPostDeleted();
   }
 
   void _handleEditPost(BuildContext context) {
     TextEditingController editController =
-        TextEditingController(text: post.text);
+        TextEditingController(text: widget.post.text);
 
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Edit Post'),
+            backgroundColor: GlobalVariables.greyBackgroundCOlor,
+            title: Text('Edit Post', style: TextStyle(color: Colors.white)),
             content: TextField(
+              style: TextStyle(color: Colors.white),
               controller: editController,
-              decoration: InputDecoration(hintText: "Edit your post content"),
+              maxLines: 5,
+              decoration: InputDecoration(
+                hintText: 'Edit post content...',
+                hintStyle: TextStyle(
+                    color: Colors.white.withOpacity(0.7)), // Hint text color
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white.withOpacity(0.7)),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.white),
+                ),
+              ),
             ),
             actions: <Widget>[
               TextButton(
-                child: Text('Cancel'),
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(color: Colors.red),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               TextButton(
-                child: Text('Update'),
+                child: Text(
+                  'Update',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
                 onPressed: () async {
                   final postService = PostService();
                   await postService.editPost(
                     context: context,
-                    postId: post.id,
+                    postId: widget.post.id,
                     title:
                         "title", // Replace with your title logic if there's any
                     content: editController.text,
                   );
                   Navigator.of(context).pop();
-                  onPostDeleted(); // To refresh after edit
+                  widget.onPostDeleted(); // To refresh after edit
                 },
               )
             ],
@@ -96,17 +121,17 @@ class SocialMediaPostCard extends StatelessWidget {
             // User Information (Profile Image, Username, Time Ago)
             Row(
               children: [
-                Placeholder(
-                  fallbackHeight: 40,
-                  fallbackWidth: 40,
-                  color: GlobalVariables.secondaryColor,
-                ),
+                CircleAvatar(
+                    radius: 25,
+                    backgroundImage:
+                        AssetImage("assets/RISTEK.png") as ImageProvider),
+
                 SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      post.username,
+                      widget.post.username,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
@@ -114,7 +139,7 @@ class SocialMediaPostCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      post.major,
+                      widget.post.major,
                       style: TextStyle(
                         color: GlobalVariables.subtitleColor,
                       ),
@@ -149,20 +174,36 @@ class SocialMediaPostCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 30),
             // Post Text
             Text(
-              post.text,
+              widget.post.text,
               style: TextStyle(
-                fontSize: 12.0,
+                fontSize: 14.0,
                 color: GlobalVariables.subtitleColor,
               ),
             ),
             SizedBox(height: 20),
             // Post Image
-            Placeholder(
-              fallbackHeight: 200,
-              color: GlobalVariables.secondaryColor,
+            Center(
+              child: Container(
+                width: 300,
+                height: 150,
+                decoration: BoxDecoration(
+                  color:
+                      Colors.grey, // Set a background color for the rectangle
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(
+                      10.0), // Clip the image to match the rectangle's border radius
+                  child: Image.network(
+                    widget.post.imageURL, // Replace with your image URL
+                    fit: BoxFit
+                        .cover, // Adjust the fit as needed (e.g., BoxFit.fill, BoxFit.contain)
+                  ),
+                ),
+              ),
             ),
             // Comment and Like Icons
             SizedBox(height: 10),
@@ -177,7 +218,7 @@ class SocialMediaPostCard extends StatelessWidget {
                   },
                 ),
                 Text(
-                  '9',
+                  (widget.post.likeCount - widget.post.dislikeCount).toString(),
                   style: TextStyle(
                     color: GlobalVariables.subtitleColor,
                   ),
@@ -193,7 +234,7 @@ class SocialMediaPostCard extends StatelessWidget {
                   },
                 ),
                 Text(
-                  '10',
+                  widget.post.comments.length.toString(),
                   style: TextStyle(
                     color: GlobalVariables.subtitleColor,
                   ),
