@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sociabile/constants/global_variables.dart';
 
 class TextFieldWidget extends StatefulWidget {
   final String label;
@@ -40,10 +41,10 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       children: [
         Text(
           widget.label,
-          style: const TextStyle(
+          style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18.0,
-            color: Color(0xFF9D4EDD),
+            color: GlobalVariables.purpleColor,
             fontFamily: 'Poppins',
           ),
         ),
@@ -55,11 +56,11 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
           maxLines: widget.maxLines,
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Color(0xFF9D4EDD)),
+              borderSide: BorderSide(color: GlobalVariables.purpleColor),
               borderRadius: BorderRadius.circular(12),
             ),
-            focusedBorder: const UnderlineInputBorder(
-              borderSide: BorderSide(color: Color(0xFF9D4EDD)),
+            focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: GlobalVariables.purpleColor),
             ),
           ),
           controller: controller,

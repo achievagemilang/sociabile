@@ -7,7 +7,8 @@ class CommentCard extends StatelessWidget {
   final VoidCallback onEdit;
   final VoidCallback onDelete;
 
-  CommentCard({
+  const CommentCard({
+    super.key,
     required this.comment,
     required this.onEdit,
     required this.onDelete,
@@ -17,40 +18,39 @@ class CommentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: GlobalVariables.greyBackgroundCOlor,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 20,
-                  backgroundImage:
-                      AssetImage("assets/RISTEK.png") as ImageProvider,
+                  backgroundImage: AssetImage("assets/RISTEK.png"),
                 ),
 
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       comment.username,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: GlobalVariables.secondaryColor,
                       ),
                     ),
                     Text(
-                      '${comment.major}',
-                      style: TextStyle(
+                      comment.major,
+                      style: const TextStyle(
                         color: GlobalVariables.subtitleColor,
                       ),
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 // Three Bullet Trailing Icons
                 PopupMenuButton<String>(
                   color: GlobalVariables.subtitleColor,
@@ -62,11 +62,11 @@ class CommentCard extends StatelessWidget {
                     }
                   },
                   itemBuilder: (context) => <PopupMenuEntry<String>>[
-                    PopupMenuItem<String>(
+                    const PopupMenuItem<String>(
                       value: 'edit',
                       child: Text('Edit'),
                     ),
-                    PopupMenuItem<String>(
+                    const PopupMenuItem<String>(
                       value: 'delete',
                       child: Text(
                         'Delete',
@@ -78,12 +78,12 @@ class CommentCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.only(left: 48.0),
               child: Text(
                 comment.text,
-                style: TextStyle(
+                style: const TextStyle(
                   color: GlobalVariables.subtitleColor,
                 ),
               ),

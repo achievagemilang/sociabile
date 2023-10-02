@@ -1,4 +1,4 @@
-import 'dart:io';
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,7 @@ import 'create_post_page.dart';
 import 'profile_page.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({super.key});
+  const MainPage({super.key});
   static const String routeName = "/main-page";
 
   @override
@@ -78,12 +78,12 @@ class _MainPageState extends State<MainPage> {
 
     setState(() {
       this.posts = posts;
-      print(posts.toString());
     });
   }
 
   void _refreshPosts() {
     _fetchPosts();
+    setState(() {});
   }
 
   @override
@@ -110,13 +110,13 @@ class _MainPageState extends State<MainPage> {
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ProfilePage(),
+                              builder: (context) => const ProfilePage(),
                             ),
                           ).then((_) {
                             Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MainPage(),
+                                  builder: (context) => const MainPage(),
                                 ));
                           }),
                           child: CircleAvatar(
@@ -124,25 +124,25 @@ class _MainPageState extends State<MainPage> {
                             child: CircleAvatar(
                               radius: 20,
                               backgroundImage: user!.photoUrl == null
-                                  ? AssetImage("assets/RISTEK.png")
+                                  ? const AssetImage("assets/RISTEK.png")
                                       as ImageProvider
                                   : NetworkImage(user!.photoUrl!),
                             ),
                           ),
                         ),
-                        SizedBox(width: 20),
+                        const SizedBox(width: 20),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               user!.firstName,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: GlobalVariables.secondaryColor,
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16),
                             ),
-                            Text(
+                            const Text(
                               "RISTEK 2023",
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -161,7 +161,7 @@ class _MainPageState extends State<MainPage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CreatePostPage(),
+                            builder: (context) => const CreatePostPage(),
                           ),
                         );
                       },

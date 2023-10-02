@@ -1,17 +1,17 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sociabile/constants/global_variables.dart';
 import 'package:sociabile/models/user.dart';
-import 'package:sociabile/page/main_page.dart';
+import 'package:sociabile/page/edit_profile_page.dart';
 import 'package:sociabile/provider/auth_provider.dart';
 import 'package:sociabile/widgets/ribbon_description.dart';
 
 import '../widgets/ribbon_heading.dart';
 
 class ProfilePage extends StatefulWidget {
-  ProfilePage({super.key});
+  const ProfilePage({super.key});
+
+  static const String routeName = "/profile";
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -28,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     user = Provider.of<AuthProvider>(context).user!;
+
     Widget buildEditProfile() => InkWell(
           child: Text(
             "Edit Profile",
@@ -40,12 +41,12 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
           onTap: () async {
-            // await Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) =>  EditProfilePage(),
-            //   ),
-            // );
+            await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const EditProfilePage(),
+              ),
+            );
             setState(() {});
           },
         );
@@ -56,23 +57,24 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 80),
+            const SizedBox(height: 80),
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   CircleAvatar(
                     radius: 82,
                     backgroundColor: GlobalVariables.purpleColor,
                     child: CircleAvatar(
                       radius: 80,
                       backgroundImage: user.photoUrl == null
-                          ? AssetImage("assets/RISTEK.png") as ImageProvider
+                          ? const AssetImage("assets/RISTEK.png")
+                              as ImageProvider
                           : NetworkImage(user.photoUrl!),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     "${user.firstName} ${user.lastName}",
                     textAlign: TextAlign.center,
@@ -83,8 +85,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize: 25,
                     ),
                   ),
-                  SizedBox(height: 3),
-                  Text(
+                  const SizedBox(height: 3),
+                  const Text(
                     "RISTEK 2023",
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -96,25 +98,25 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
             ),
-            SizedBox(height: 40),
-            RibbonHeading(text: 'First Name'),
+            const SizedBox(height: 40),
+            const RibbonHeading(text: 'First Name'),
             RibbonDescription(text: user.firstName),
-            RibbonHeading(text: 'Last Name'),
+            const RibbonHeading(text: 'Last Name'),
             RibbonDescription(text: user.lastName),
-            RibbonHeading(text: 'Email'),
+            const RibbonHeading(text: 'Email'),
             RibbonDescription(text: user.email),
-            RibbonHeading(text: 'Bio'),
+            const RibbonHeading(text: 'Bio'),
             RibbonDescription(text: user.bio ?? ""),
-            SizedBox(height: 20),
-            // Center(
-            //   child: Padding(
-            //     padding: EdgeInsets.symmetric(vertical: 20),
-            //     child: Align(
-            //         alignment: Alignment.bottomCenter,
-            //         child: buildEditProfile()),
-            //   ),
-            // ),
-            SizedBox(height: 40),
+            const SizedBox(height: 20),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: buildEditProfile()),
+              ),
+            ),
+            const SizedBox(height: 40),
           ],
         ),
       ),

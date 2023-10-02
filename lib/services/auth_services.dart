@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -34,8 +36,6 @@ class AuthService {
         },
       );
 
-      print(res.body);
-
       httpErrorHandling(
         response: res,
         context: context,
@@ -64,8 +64,6 @@ class AuthService {
         },
       );
 
-      print(res.body);
-
       httpErrorHandling(
         response: res,
         context: context,
@@ -73,7 +71,6 @@ class AuthService {
       );
 
       var jsonResponse = jsonDecode(res.body);
-      print(jsonResponse["data"]["data"]);
       if (jsonResponse['status'] == true) {
         String token = jsonResponse['data']['token'];
         await AccessTokenHandling.saveTokenToPrefs(
@@ -84,7 +81,6 @@ class AuthService {
 
         await UserHandling.saveUserToPrefs(user);
         User? prefUser = await UserHandling.getUserFromPrefs();
-        print(prefUser!.firstName);
 
         context.read<AuthProvider>().setUser(prefUser);
 
@@ -99,8 +95,11 @@ class AuthService {
     return null;
   }
 
-  Future<User?> getProfileUser({
+  Future<User?> patchProfile({
     required BuildContext context,
+    required String firstName,
+    required String lastName,
+    required String bio,
   }) async {
     try {
       String? token = await AccessTokenHandling
@@ -110,23 +109,26 @@ class AuthService {
         throw Exception("Token not found");
       }
 
-      http.Response res = await http.get(
-        Uri.parse('$authUrl/profile'),
+      http.Response res = await http.patch(
+        Uri.parse('$uri/api/user'),
+        body: {
+          "firstName": firstName,
+          "lastName": lastName,
+          "bio": bio,
+        },
         headers: <String, String>{
           'Authorization': "Bearer $token",
         },
       );
 
-      print(res.body);
-
       httpErrorHandling(
         response: res,
         context: context,
         onSuccess: () async {
-          print(res.body);
-          String resUser = jsonDecode(res.body)["data"].toString();
-          print(resUser);
-          showSnackbar(context, "Successfully Fetched!", true);
+          // print(res.body);
+          // String resUser = jsonDecode(res.body)["data"].toString();
+          // print(resUser);
+          // showSnackbar(context, "Successfully Patched!", true);
         },
       );
     } catch (e) {
