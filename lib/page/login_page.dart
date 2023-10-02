@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sociabile/constants/global_variables.dart';
 import 'package:sociabile/page/register_page.dart';
-import 'package:sociabile/provider/auth_provider.dart';
 import 'package:sociabile/services/auth_services.dart';
 import 'package:sociabile/widgets/custom_button.dart';
 
@@ -34,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
           context: context, email: email, password: password);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please enter email and password.')),
+        const SnackBar(content: Text('Please enter email and password.')),
       );
     }
   }

@@ -12,7 +12,8 @@ class CommentPage extends StatefulWidget {
   final List<CommentDisplay> comments;
   final String postId;
 
-  CommentPage({
+  const CommentPage({
+    super.key,
     required this.postCard,
     required this.comments,
     required this.postId,
@@ -61,9 +62,11 @@ class _CommentPageState extends State<CommentPage> {
             TextEditingController(text: comment.text);
         return AlertDialog(
           backgroundColor: GlobalVariables.greyBackgroundCOlor,
-          title: Text('Edit Comment', style: TextStyle(color: Colors.white)),
+          title:
+              const Text('Edit Comment', style: TextStyle(color: Colors.white)),
           content: TextField(
-            style: TextStyle(color: Colors.white), // Text color for TextField
+            style: const TextStyle(
+                color: Colors.white), // Text color for TextField
             controller: editingController,
             decoration: InputDecoration(
               hintText: 'Edit your comment...',
@@ -72,7 +75,7 @@ class _CommentPageState extends State<CommentPage> {
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.white.withOpacity(0.7)),
               ),
-              focusedBorder: OutlineInputBorder(
+              focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.white),
               ),
             ),
@@ -80,13 +83,14 @@ class _CommentPageState extends State<CommentPage> {
           ),
           actions: [
             TextButton(
-              child: Text('Cancel', style: TextStyle(color: Colors.white)),
+              child:
+                  const Text('Cancel', style: TextStyle(color: Colors.white)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Save', style: TextStyle(color: Colors.white)),
+              child: const Text('Save', style: TextStyle(color: Colors.white)),
               onPressed: () {
                 Navigator.of(context).pop(editingController.text);
               },
@@ -97,6 +101,7 @@ class _CommentPageState extends State<CommentPage> {
     );
 
     if (editedComment != null && editedComment != comment.text) {
+      // ignore: use_build_context_synchronously
       await commentService.editComment(
         context: context,
         value: editedComment,
@@ -130,9 +135,9 @@ class _CommentPageState extends State<CommentPage> {
                     )),
                     Container(
                         margin: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Text(
+                        child: const Text(
                           "Comments",
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Color.fromARGB(255, 56, 56, 56),
                           ),
                         )),
@@ -163,13 +168,14 @@ class _CommentPageState extends State<CommentPage> {
               ),
               // Comment TextField
               Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 child: TextField(
                   controller: _commentController,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     hintText: 'Add a comment...',
-                    hintStyle: TextStyle(color: GlobalVariables.secondaryColor),
+                    hintStyle:
+                        const TextStyle(color: GlobalVariables.secondaryColor),
                     border: const OutlineInputBorder(
                         borderSide: BorderSide(
                           color: GlobalVariables.subtitleColor,
@@ -181,7 +187,7 @@ class _CommentPageState extends State<CommentPage> {
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     suffixIcon: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.send,
                         color: GlobalVariables.secondaryColor,
                       ),

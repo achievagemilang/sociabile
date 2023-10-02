@@ -3,7 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sociabile/constants/global_variables.dart';
 import 'package:sociabile/page/login_page.dart';
-import 'package:sociabile/page/main_page.dart';
 import 'package:sociabile/provider/auth_provider.dart';
 import 'package:sociabile/router/router.dart';
 
@@ -40,7 +39,7 @@ class MyApp extends StatelessWidget {
           textTheme: GoogleFonts.poppinsTextTheme(),
         ),
         // home: const LoginPage(),
-        home: LoginPage(),
+        home: const LoginPage(),
       ),
     );
   }

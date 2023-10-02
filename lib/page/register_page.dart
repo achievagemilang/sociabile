@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:sociabile/constants/global_variables.dart';
 import 'package:sociabile/page/login_page.dart';
-import 'package:sociabile/provider/auth_provider.dart';
 import 'package:sociabile/widgets/custom_button.dart';
 import 'package:sociabile/services/auth_services.dart';
 
@@ -17,7 +15,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final AuthService _authService = AuthService();
   @override
   void initState() {
     super.initState();

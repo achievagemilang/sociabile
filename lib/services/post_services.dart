@@ -1,6 +1,7 @@
+// ignore_for_file: depend_on_referenced_packages, use_build_context_synchronously
+
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:sociabile/constants/global_variables.dart';
@@ -40,12 +41,11 @@ class PostService {
           posts.add(Post.fromJson(postData));
         }
       }
-      print(posts.length);
       httpErrorHandling(
         response: res,
         context: context,
         onSuccess: () async {
-          showSnackbar(context, "Posts fetched successfully!", true);
+          // showSnackbar(context, "Posts fetched successfully!", true);
         },
       );
     } catch (e) {
@@ -84,7 +84,7 @@ class PostService {
         response: res,
         context: context,
         onSuccess: () async {
-          showSnackbar(context, "Post details fetched successfully!", true);
+          // showSnackbar(context, "Post details fetched successfully!", true);
         },
       );
     } catch (e) {
@@ -103,7 +103,6 @@ class PostService {
     required File imageFile,
   }) async {
     try {
-      print("PICTURE: $picturePath");
       String? token = await AccessTokenHandling
           .getTokenFromPrefs(); // Get token from SharedPreferences
 
@@ -130,7 +129,6 @@ class PostService {
       request.fields['content'] = content;
       // request.fields['picture'] = base64Encode(await imageFile.readAsBytes());
 
-      print("HAI");
       // print(request.fields['picture']);
 
       request.headers['Authorization'] =
@@ -138,8 +136,6 @@ class PostService {
 
       var res = await request.send();
       var responseBody = await http.Response.fromStream(res);
-
-      print(responseBody.body);
 
       httpErrorHandling(
         response: responseBody,
@@ -185,13 +181,11 @@ class PostService {
       var res = await request.send();
       var responseBody = await http.Response.fromStream(res);
 
-      print(responseBody.body);
-
       httpErrorHandling(
         response: responseBody,
         context: context,
         onSuccess: () async {
-          showSnackbar(context, "Post edited successfully!", true);
+          // showSnackbar(context, "Post edited successfully!", true);
         },
       );
     } catch (e) {
@@ -219,13 +213,11 @@ class PostService {
         },
       );
 
-      print(res.body);
-
       httpErrorHandling(
         response: res,
         context: context,
         onSuccess: () async {
-          showSnackbar(context, "Post deleted successfully!", true);
+          // showSnackbar(context, "Post deleted successfully!", true);
         },
       );
     } catch (e) {
@@ -245,7 +237,7 @@ class PostService {
     // final postLikeUrl = "$postUrl/post-like";
 
     final String baseUrl = uri.replaceFirst("http://", "");
-    final String postLikeUrl = "/api/post-like";
+    const String postLikeUrl = "/api/post-like";
     try {
       String? token = await AccessTokenHandling
           .getTokenFromPrefs(); // Get token from SharedPreferences
@@ -269,16 +261,14 @@ class PostService {
         }),
       );
 
-      print(res.body);
-
       httpErrorHandling(
         response: res,
         context: context,
         onSuccess: () async {
-          String message = (likeType == 'LIKE')
-              ? "Post liked successfully!"
-              : "Post disliked successfully!";
-          showSnackbar(context, message, true);
+          // String message = (likeType == 'LIKE')
+          //     ? "Post liked successfully!"
+          //     : "Post disliked successfully!";
+          // showSnackbar(context, message, true);
         },
       );
     } catch (e) {

@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:sociabile/constants/global_variables.dart';
@@ -87,7 +90,7 @@ class CommentService {
           response: res,
           context: context,
           onSuccess: () {
-            showSnackbar(context, "Comment edited successfully!", true);
+            // showSnackbar(context, "Comment edited successfully!", true);
           });
     } catch (e) {
       showSnackbar(context, e.toString(), false);
@@ -119,7 +122,7 @@ class CommentService {
           response: res,
           context: context,
           onSuccess: () {
-            showSnackbar(context, "Comment deleted successfully!", true);
+            // showSnackbar(context, "Comment deleted successfully!", true);
           });
     } catch (e) {
       showSnackbar(context, e.toString(), false);
@@ -153,16 +156,14 @@ class CommentService {
         response: res,
         context: context,
         onSuccess: () async {
-          showSnackbar(context, "All comments fetched successfully!", true);
+          // showSnackbar(context, "All comments fetched successfully!", true);
         },
       );
       if (res.statusCode == 200) {
         List<dynamic> commentsData = json.decode(res.body)['data'];
-        print("Comments data: $commentsData");
         List<Comment> comments = commentsData
             .map((commentData) => Comment.fromJson(commentData))
             .toList();
-        print("Comments: $comments");
         return comments;
       }
     } catch (e) {

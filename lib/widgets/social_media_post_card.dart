@@ -1,8 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:sociabile/constants/global_variables.dart';
 import 'package:sociabile/model/post_display.dart';
 import 'package:sociabile/page/comment_page.dart';
-import 'package:sociabile/page/main_page.dart';
 
 import '../services/post_services.dart';
 
@@ -10,7 +11,8 @@ class SocialMediaPostCard extends StatefulWidget {
   final PostDisplay post;
   final Function onPostDeleted;
 
-  SocialMediaPostCard({required this.post, required this.onPostDeleted});
+  const SocialMediaPostCard(
+      {super.key, required this.post, required this.onPostDeleted});
 
   @override
   State<SocialMediaPostCard> createState() => _SocialMediaPostCardState();
@@ -66,9 +68,10 @@ class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
         builder: (context) {
           return AlertDialog(
             backgroundColor: GlobalVariables.greyBackgroundCOlor,
-            title: Text('Edit Post', style: TextStyle(color: Colors.white)),
+            title:
+                const Text('Edit Post', style: TextStyle(color: Colors.white)),
             content: TextField(
-              style: TextStyle(color: Colors.white),
+              style: const TextStyle(color: Colors.white),
               controller: editController,
               maxLines: 5,
               decoration: InputDecoration(
@@ -78,14 +81,14 @@ class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.white.withOpacity(0.7)),
                 ),
-                focusedBorder: OutlineInputBorder(
+                focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
                 ),
               ),
             ),
             actions: <Widget>[
               TextButton(
-                child: Text(
+                child: const Text(
                   'Cancel',
                   style: TextStyle(color: Colors.red),
                 ),
@@ -94,7 +97,7 @@ class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
                 },
               ),
               TextButton(
-                child: Text(
+                child: const Text(
                   'Update',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
@@ -122,9 +125,9 @@ class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
     return Card(
       color: GlobalVariables.greyBackgroundCOlor,
       elevation: 4.0, // Add elevation for a card-like appearance
-      margin: EdgeInsets.all(6.0),
+      margin: const EdgeInsets.all(6.0),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0).copyWith(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(
           bottom: 8.0,
           top: 32.0,
         ),
@@ -134,18 +137,17 @@ class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
             // User Information (Profile Image, Username, Time Ago)
             Row(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                     radius: 25,
-                    backgroundImage:
-                        AssetImage("assets/RISTEK.png") as ImageProvider),
+                    backgroundImage: AssetImage("assets/RISTEK.png")),
 
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       widget.post.username,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16.0,
                         color: GlobalVariables.secondaryColor,
@@ -153,13 +155,13 @@ class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
                     ),
                     Text(
                       widget.post.major,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: GlobalVariables.subtitleColor,
                       ),
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 // Three Bullet Trailing Icons
                 PopupMenuButton<String>(
                   color: GlobalVariables.subtitleColor,
@@ -171,11 +173,11 @@ class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
                     }
                   },
                   itemBuilder: (context) => <PopupMenuEntry<String>>[
-                    PopupMenuItem<String>(
+                    const PopupMenuItem<String>(
                       value: 'edit',
                       child: Text('Edit'),
                     ),
-                    PopupMenuItem<String>(
+                    const PopupMenuItem<String>(
                       value: 'delete',
                       child: Text(
                         'Delete',
@@ -187,16 +189,16 @@ class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
                 ),
               ],
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             // Post Text
             Text(
               widget.post.text,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14.0,
                 color: GlobalVariables.subtitleColor,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // Post Image
             Center(
               child: Container(
@@ -219,13 +221,13 @@ class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
               ),
             ),
             // Comment and Like Icons
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             // Like and Comment Icons with Counts
             Row(
               children: [
                 IconButton(
                   color: GlobalVariables.subtitleColor,
-                  icon: Icon(Icons.favorite_border_outlined),
+                  icon: const Icon(Icons.favorite_border_outlined),
                   onPressed: () {
                     // Add your like action here
                     _likePost(context);
@@ -233,14 +235,14 @@ class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
                 ),
                 Text(
                   (widget.post.likeCount - widget.post.dislikeCount).toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: GlobalVariables.subtitleColor,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                     width: 20), // Add spacing between like and comment counts
                 IconButton(
-                  icon: Icon(Icons.mode_comment_outlined),
+                  icon: const Icon(Icons.mode_comment_outlined),
                   color: GlobalVariables.subtitleColor,
                   onPressed: () {
                     // Add your comment action here
@@ -249,7 +251,7 @@ class _SocialMediaPostCardState extends State<SocialMediaPostCard> {
                 ),
                 Text(
                   widget.post.comments.length.toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: GlobalVariables.subtitleColor,
                   ),
                 ),
