@@ -107,10 +107,10 @@ Fitur ini adalah fitur untuk melakukan edit/delete terhadap post user. Hal ini d
 - **Edit/Delete Comment Modal**
 
 <p align= "center">
-<img src="/assets/readme/edit-post-1.png" width="500" height="400">
+<img src="/assets/readme/login.png" width="500" height="400">
 <br>
 <br>
-<img src="/assets/readme/edit-post-2.png" width="500" height="400">
+<img src="/assets/readme/register.png" width="500" height="400">
 </p>
 
 Fitur ini adalah fitur untuk melakukan edit/delete terhadap comment user. Hal ini dapat dilakukan dengan menekan icon three bullets pada sebelah kanan icon lalu menekan edit/delete pada popup yang muncul. Tampilan screenshot diatas adalah bentuk popup dan modal yang akan muncul jika kita berinteraksi dengan UI.
