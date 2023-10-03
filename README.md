@@ -1,4 +1,4 @@
-<img src="/assets/ic_launcher.png" width="100" height="100">
+<img src="/assets/RISTEK.png" width="100" height="100">
 
 # Sociabile - Blog Chat App
 
@@ -24,8 +24,8 @@ Backend Repository: https://github.com/zuhalal/blog-app-capstone
 - **Main Page**
 
 <p align= "center">
-<img src="/assets/readme/main-page-1.png" width="500" height="400">
-<img src="/assets/readme/main-page-2.png" width="500" height="400">
+<img src="/assets/readme/main-page-1.png" width="500" height="800">
+<img src="/assets/readme/main-page-2.png" width="500" height="800">
 </p>
 
 Menampilkan post yang telah diperoleh dari response API ke UI aplikasi. Post yang ditampilkan dapat dilakukan like dan comment. Untuk melakukan like, kita dapat menekan icon love pada post tersebut. Untuk mendisplay comment, kita dapat menekan icon comment pada post tersebut. Selain itu, kita juga dapat melakukan navigasi ke Profile Page dan Create Post Page melalui page ini. Kita dapat melakukannya dengan mengklik gambar avatar dari user untuk menuju ke Profile Page. Sedangkan untuk menuju ke Create Post Page, kita dapat menekan icon `+` yang tertera disamping profile user. Pada gambar diatas, kita dapat melihat tampilan interface Main Page.
