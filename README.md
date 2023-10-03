@@ -83,10 +83,10 @@ Fitur ini adalah fitur yang memungkinkan user untuk melakukan post tertentu terh
 - **Login dan Register Page**
 
 <p align= "center">
-<img src="/assets/readme/create-post-1.png" width="500" height="800">
+<img src="/assets/readme/login.png" width="500" height="800">
 <br>
 <br>
-<img src="/assets/readme/create-post-2.png" width="500" height="800">
+<img src="/assets/readme/register.png" width="500" height="800">
 </p>
 
 Fitur ini adalah fitur untuk mengautentikasi user dan mendaftarkan user. Untuk melakukan registrasi ataupun melakukan login, user perlu mengisi form seperti email dan password. Tampilan screenshot diatas adalah contoh UI dari login dan register page.
@@ -107,10 +107,10 @@ Fitur ini adalah fitur untuk melakukan edit/delete terhadap post user. Hal ini d
 - **Edit/Delete Comment Modal**
 
 <p align= "center">
-<img src="/assets/readme/login.png" width="500" height="800">
+<img src="/assets/readme/edit-comment-1.png" width="500" height="800">
 <br>
 <br>
-<img src="/assets/readme/register.png" width="500" height="800">
+<img src="/assets/readme/edit-comment-2.png" width="500" height="800">
 </p>
 
 Fitur ini adalah fitur untuk melakukan edit/delete terhadap comment user. Hal ini dapat dilakukan dengan menekan icon three bullets pada sebelah kanan icon lalu menekan edit/delete pada popup yang muncul. Tampilan screenshot diatas adalah bentuk popup dan modal yang akan muncul jika kita berinteraksi dengan UI.
