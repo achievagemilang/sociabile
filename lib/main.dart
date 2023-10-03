@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         onGenerateRoute: ((settings) => generateRoute(settings)),
         title: 'Sociabile RISTEK',
         theme: ThemeData(
